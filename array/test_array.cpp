@@ -2,19 +2,25 @@
 
 int main()
 {
-	ARRAY myarrry(5, 0);
+	ARRAY myarray(3);
+	ARRAY hisarray(3);
 
-	myarrry.insert(3);
-	myarrry.insert(9);
-	myarrry.insert(20);
-	myarrry.insert(4);
-	myarrry.dump();
-	myarrry.deleteelem(2);
-	myarrry.dump();
-	myarrry.insert(15);
-	myarrry.dump();
-	myarrry.search(24);
-	myarrry.search(4);
+	myarray.insert(1);
+	myarray.insert(3);
+	myarray.insert(6);
+	myarray.dump();
+	myarray.showadd();
+	myarray.search(4);
+	myarray.search(3);
+
+	hisarray = myarray;
+	hisarray.dump();
+	hisarray.showadd();
+
+	myarray.insert(20);
+	myarray.dump();
+	myarray.showadd();
+	
 
 	return 0;
 }

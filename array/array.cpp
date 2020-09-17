@@ -1,15 +1,17 @@
+#pragma once
 #include"array.h"
 #include<cstring>
+using namespace std;
 
-ARRAY::ARRAY(int s, int u)
+ARRAY::ARRAY(int s)
 {
 	size = s;
-	used = u;
-	this->arr =  new int[size];
+	used = 0;
+	this->arr = new int[size];
 	if (this->arr == NULL)
 		cout << "NEW error!\n";
-	
-	for (int i = 0; i < used; ++i)
+
+	for (int i = 0; i < size; ++i)
 	{
 		this->arr[i] = 0;
 	}
@@ -20,7 +22,7 @@ ARRAY::ARRAY(const ARRAY& AR)
 	this->size = AR.size;
 	this->used = AR.used;
 	arr = new int[size];
-	memcpy(arr, AR.arr, sizeof(AR));
+	memcpy(arr, AR.arr, AR.size * sizeof(int));
 }
 
 void ARRAY::operator=(const ARRAY& AR)
@@ -28,7 +30,7 @@ void ARRAY::operator=(const ARRAY& AR)
 	this->size = AR.size;
 	this->used = AR.used;
 	arr = new int[size];
-	memcpy(arr, AR.arr, sizeof(AR));
+	memcpy(arr, AR.arr, AR.size * sizeof(int));
 }
 
 void ARRAY::dump()
@@ -42,12 +44,19 @@ void ARRAY::dump()
 
 bool ARRAY::insert(int elem)
 {
-	if (this->used > this->size)
+	if (this->used >= this->size)
 	{
-		cout << "AERA ALREADY FULL\n";
-		return false;
+		int tempsize = this->size;
+		ARRAY temp(2 * tempsize);
+		temp.used = tempsize;
+		memcpy(temp.arr, this->arr, this->size * sizeof(int));
+		temp.arr[temp.used++] = elem;
+		delete[]this->arr;
+
+		*this = temp;
+		return true;
 	}
-		
+
 	this->arr[this->used++] = elem;
 	return true;
 }
@@ -63,7 +72,7 @@ void ARRAY::search(int num)
 		}
 	}
 
-	cout << "NO SUCH "<< num << " NUMBER\n";
+	cout << "NO SUCH " << num << " NUMBER\n";
 }
 
 bool ARRAY::deleteelem(int num)
@@ -85,6 +94,8 @@ bool ARRAY::deleteelem(int num)
 	return true;
 }
 
-
-
-
+void ARRAY::showadd()
+{
+	cout << "Now array first address == ";
+	cout <<  (void*)this->arr << endl;
+}
